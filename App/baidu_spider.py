@@ -82,9 +82,10 @@ class UiForm(object):
 
         Form.setObjectName("Form")
         Form.resize(500, 350)
-        # icon = QtGui.QIcon()
-        # icon.addPixmap(QtGui.QPixmap("web.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        # Form.setWindowIcon(icon)
+        icon = QtGui.QIcon()
+        icon.addPixmap(QtGui.QPixmap("favicon.ico"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        Form.setWindowIcon(icon)
+        Form.setStyleSheet("background-image:url(bg.jpg)")
         Form.setAutoFillBackground(False)
         self.label = QtWidgets.QLabel(Form)
         self.label.setGeometry(QtCore.QRect(30, 40, 101, 21))
@@ -111,8 +112,10 @@ class UiForm(object):
 
     def retranslateUi(self, Form):
         _translate = QtCore.QCoreApplication.translate
-        Form.setWindowTitle(_translate("Form", "BaiDuSpider"))
-        self.label.setText(_translate("Form", "KeyWords:"))
+        # Form.setWindowTitle(_translate("Form", "BaiDuSpider"))
+        Form.setWindowTitle(_translate("Form", "百度爬虫"))
+        # self.label.setText(_translate("Form", "KeyWords:"))
+        self.label.setText(_translate("Form", "关键词:"))
         self.pushButton.setText(_translate("Form", "抓取"))
         self.pushButton_2.setText(_translate("Form", "清空"))
         self.pushButton.clicked.connect(self.btnPress1_clicked)
@@ -123,7 +126,11 @@ class UiForm(object):
         # self.textEdit.setPlainText('Hello PyQt5!\n单击按钮')
         input_kws = self.textEdit.toPlainText()
         print(input_kws)
-        kws = input_kws.split('\n')
+        kws_split = input_kws.split('\n')
+        kws = []
+        for i in kws_split:
+            if i != '':
+                kws.append(i)
         print(kws)
         print('正在抓取。。。')
         self.textEdit.setText("正在抓取。。。")
