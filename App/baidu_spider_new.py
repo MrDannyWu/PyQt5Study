@@ -8,7 +8,7 @@
 
 import sys
 from PyQt5 import QtCore, QtGui, QtWidgets
-from PyQt5.QtWidgets import QMainWindow, QApplication
+from PyQt5.QtWidgets import QMainWindow, QApplication, QMessageBox
 import requests
 from bs4 import BeautifulSoup
 import datetime
@@ -144,7 +144,7 @@ class UiMainWindow(object):
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
-        MainWindow.setWindowTitle(_translate("MainWindow", "百度爬虫"))
+        MainWindow.setWindowTitle(_translate("MainWindow", "百度爬虫-DannyWu"))
         self.label.setText(_translate("Form", "关键词:"))
         self.pushButton.setText(_translate("Form", "抓取"))
         self.pushButton_2.setText(_translate("Form", "清空"))
@@ -155,12 +155,14 @@ class UiMainWindow(object):
         # 以文本的形式输出到多行文本框
         # self.textEdit.setPlainText('Hello PyQt5!\n单击按钮')
         input_kws = self.textEdit.toPlainText()
-        self.statusbar.showMessage('正在抓取。。。')
+
         print(input_kws)
         kws_split = input_kws.split('\n')
         if len(kws_split) == 1 and kws_split[0].strip() == '':
-            self.textEdit.setText("请输入一个或多个关键词！")
+            self.statusbar.showMessage('请输入一个或多个关键词！')
+            # self.textEdit.setText("请输入一个或多个关键词！")
         else:
+            # self.statusbar.showMessage('正在抓取。。。')
             print(len(kws_split))
             self.textEdit.setText("正在抓取。。。")
             kws = []
