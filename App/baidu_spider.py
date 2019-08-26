@@ -85,7 +85,11 @@ class UiForm(object):
         icon = QtGui.QIcon()
         icon.addPixmap(QtGui.QPixmap("favicon.ico"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         Form.setWindowIcon(icon)
-        Form.setStyleSheet("background-image:url(bg.jpg)")
+
+        palette = QtGui.QPalette()
+        palette.setBrush(QtGui.QPalette.Background, QtGui.QBrush(QtGui.QPixmap("bk.jpg")))
+        Form.setPalette(palette)
+        # Form.setStyleSheet("background-image:url(bg.jpg)")
         Form.setAutoFillBackground(False)
         self.label = QtWidgets.QLabel(Form)
         self.label.setGeometry(QtCore.QRect(30, 40, 101, 21))

@@ -86,16 +86,25 @@ class BaiDuSpider(object):
 
 class UiMainWindow(object):
     def setupUi(self, MainWindow):
+        # 新建一个主窗口
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(500, 350)
 
+        # 设置ico图标
         icon = QtGui.QIcon()
         icon.addPixmap(QtGui.QPixmap("favicon.ico"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         MainWindow.setWindowIcon(icon)
 
+        # 设置背景图片
+        # palette = QtGui.QPalette()
+        # palette.setBrush(QtGui.QPalette.Background, QtGui.QBrush(QtGui.QPixmap("bk.jpg")))
+        # win.setPalette(palette)
+
+        # 主窗体居中
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
 
+        # 新建标签
         self.label = QtWidgets.QLabel(self.centralwidget)
         self.label.setGeometry(QtCore.QRect(30, 40, 101, 21))
         font = QtGui.QFont()
@@ -103,14 +112,18 @@ class UiMainWindow(object):
         self.label.setFont(font)
         self.label.setObjectName("label")
 
+        # 新建文本输入框
         self.textEdit = QtWidgets.QTextEdit(MainWindow)
         self.textEdit.setGeometry(QtCore.QRect(120, 40, 251, 171))
         self.textEdit.setObjectName("textEdit")
+        # self.textEdit.setStyleSheet("textEdit{background: transparent;}")
 
+        # 新建确定按钮
         self.pushButton = QtWidgets.QPushButton(self.centralwidget)
         self.pushButton.setGeometry(QtCore.QRect(150, 260, 75, 23))
         self.pushButton.setObjectName("pushButton")
 
+        # 新建清空按钮
         self.pushButton_2 = QtWidgets.QPushButton(self.centralwidget)
         self.pushButton_2.setGeometry(QtCore.QRect(270, 260, 75, 23))
         self.pushButton_2.setObjectName("pushButton_2")
@@ -120,9 +133,11 @@ class UiMainWindow(object):
         self.menubar.setGeometry(QtCore.QRect(0, 0, 800, 21))
         self.menubar.setObjectName("menubar")
         MainWindow.setMenuBar(self.menubar)
+
         self.statusbar = QtWidgets.QStatusBar(MainWindow)
         self.statusbar.setObjectName("statusbar")
         MainWindow.setStatusBar(self.statusbar)
+        self.statusbar.showMessage('就绪')
 
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
@@ -140,19 +155,26 @@ class UiMainWindow(object):
         # 以文本的形式输出到多行文本框
         # self.textEdit.setPlainText('Hello PyQt5!\n单击按钮')
         input_kws = self.textEdit.toPlainText()
+        self.statusbar.showMessage('正在抓取。。。')
         print(input_kws)
         kws_split = input_kws.split('\n')
-        kws = []
-        for i in kws_split:
-            if i != '':
-                kws.append(i)
-        print(kws)
-        print('正在抓取。。。')
-        self.textEdit.setText("正在抓取。。。")
-        bd_spider = BaiDuSpider(kws)
-        bd_spider.run()
-        self.textEdit.setText("抓取完成！")
-        print('抓取完成！')
+        if len(kws_split) == 1 and kws_split[0].strip() == '':
+            self.textEdit.setText("请输入一个或多个关键词！")
+        else:
+            print(len(kws_split))
+            self.textEdit.setText("正在抓取。。。")
+            kws = []
+            for i in kws_split:
+                if i != '':
+                    kws.append(i)
+            print(kws)
+            print('正在抓取。。。')
+
+            bd_spider = BaiDuSpider(kws)
+            bd_spider.run()
+            self.textEdit.setText("抓取完成！")
+            self.statusbar.showMessage('抓取完成')
+            print('抓取完成！')
 
     def btnPress2_clicked(self):
         # 以Html的格式输出多行文本框，字体红色，字号6号
